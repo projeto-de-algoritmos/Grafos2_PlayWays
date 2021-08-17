@@ -1,9 +1,9 @@
 import "./style.css";
-import MSelector from "../../Components/MateriaSelector/MSelector";
-import CytoscapeComponent from "react-cytoscapejs";
+import React from "react";
+import { cytoscape, CytoscapeComponent } from "react-cytoscapejs";
 
 function PlayWay() {
-
+  const [typeIds, setTypeIds] = React.useState([]);
   const elements = [
     { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
     { data: { id: 'two', label: 'Node 2' }, position: { x: 100, y: 0 } },
@@ -13,12 +13,28 @@ function PlayWay() {
     { data: { id: 'six', label: 'Node 6' }, position: { x: 100, y: 200 } },
     { data: { id: 'seven', label: 'Node 7' }, position: { x: 100, y: 100 } },
   ];
+  
+  function handleConnect() {
+    setTypeIds(cy.elements(':selected'));
+  }
 
+  // let cy
+  var cy = cytoscape({ /* options */ });
+
+  
+
+  console.log("SELECTEEED", typeIds)
 
   return (
 
     <div className="PlayWay">
+
+      <h2 className="question"> Para conectar nós, posicione-os e selecione DOIS deles. Depois clique em "Conectar nós"</h2>
+      <h3 className="question"> Quando finalizar, clique em "Gerar way"</h3>
+
+
       <CytoscapeComponent
+            cy={(cy) => { this.cy = cy }}
             elements={elements}
             style={ { width: '600px', height: '600px' } }
             layout={{name: 'random'}}
@@ -26,12 +42,10 @@ function PlayWay() {
             zoom={1}
             userPanningEnabled={false}
             userZoomingEnabled={false}
-            selectionType={'additive'}
+            // selectionType={'additive'}
       />
 
-    
-
-      <button className="connectButton">
+      <button className="connectButton" onClick={handleConnect}>
               {" "}
               Conectar nós
       </button>
@@ -45,15 +59,6 @@ function PlayWay() {
 
   );
 
-
-  // return (
-  //   <>
-  //     <h1 className="question"> Quais matérias c já fez?</h1>
-
-
-  //     <MSelector></MSelector>
-  //   </>
-  // );
 }
 
 export default PlayWay;
