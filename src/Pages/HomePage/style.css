@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.question {
+  margin: 10px;
+}
+
+.generateButton {
+  width: 20rem;
+  height: 3rem;
+  font-size: 20px;
+  font-weight: bold;
+  color: orange;
+  background-color: black;
+  border-radius: 7px;
+}
+
+.HomePage {
+  padding: 120px;
+  text-align: center;
+}
