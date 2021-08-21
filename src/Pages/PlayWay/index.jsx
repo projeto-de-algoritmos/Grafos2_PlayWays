@@ -2,17 +2,21 @@ import "./style.css";
 import React, { useState, useEffect } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
 
-function PlayWay() {
-  const elements = [
-    { data: { id: "one", label: "Node 1" }, position: { x: 0, y: 0 } },
-    { data: { id: "two", label: "Node 2" }, position: { x: 100, y: 0 } },
-    { data: { id: "three", label: "Node 3" }, position: { x: 150, y: 0 } },
-    { data: { id: "four", label: "Node 4" }, position: { x: 200, y: 0 } },
-    { data: { id: "five", label: "Node 5" }, position: { x: 300, y: 0 } },
-    { data: { id: "six", label: "Node 6" }, position: { x: 100, y: 200 } },
-    { data: { id: "seven", label: "Node 7" }, position: { x: 100, y: 100 } },
-    { data: { source: "one", target: "two", label: "onetotwo" } },
-  ];
+function PlayWay(history) {
+  let nodeQuantity = history.location.state.nodes;
+
+  const elements = generateNodes(nodeQuantity);
+
+  // [
+  //   { data: { id: "one", label: "Node 1" }, position: { x: 0, y: 0 } },
+  //   { data: { id: "two", label: "Node 2" }, position: { x: 100, y: 0 } },
+  //   { data: { id: "three", label: "Node 3" }, position: { x: 150, y: 0 } },
+  //   { data: { id: "four", label: "Node 4" }, position: { x: 200, y: 0 } },
+  //   { data: { id: "five", label: "Node 5" }, position: { x: 300, y: 0 } },
+  //   { data: { id: "six", label: "Node 6" }, position: { x: 100, y: 200 } },
+  //   { data: { id: "seven", label: "Node 7" }, position: { x: 100, y: 100 } },
+  //   { data: { source: "one", target: "two", label: "onetotwo" } },
+  // ];
 
   const [state, setState] = useState({
     w: window.innerWidth,
@@ -64,3 +68,19 @@ function PlayWay() {
 }
 
 export default PlayWay;
+
+function generateNodes(quantity) {
+  let nodes = [];
+
+  for (var i = 0; i < quantity; i++) {
+    let node = {
+      data: {
+        id: i + 1,
+        label: i + 1,
+      },
+    };
+
+    nodes.push(node);
+  }
+  return nodes;
+}

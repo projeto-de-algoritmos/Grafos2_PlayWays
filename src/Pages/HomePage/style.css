@@ -21,3 +21,8 @@
   padding: 120px;
   text-align: center;
 }
+
+.slider {
+  margin: 2rem;
+  max-width: 40rem;
+}
