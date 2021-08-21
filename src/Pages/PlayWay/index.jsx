@@ -1,32 +1,35 @@
 import "./style.css";
 import React, { useState, useEffect } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
+import { pink } from "@material-ui/core/colors";
 
 function PlayWay(history) {
   let nodeQuantity = history.location.state.nodes;
 
-  const elements = generateNodes(nodeQuantity);
-
-  // [
-  //   { data: { id: "one", label: "Node 1" }, position: { x: 0, y: 0 } },
-  //   { data: { id: "two", label: "Node 2" }, position: { x: 100, y: 0 } },
-  //   { data: { id: "three", label: "Node 3" }, position: { x: 150, y: 0 } },
-  //   { data: { id: "four", label: "Node 4" }, position: { x: 200, y: 0 } },
-  //   { data: { id: "five", label: "Node 5" }, position: { x: 300, y: 0 } },
-  //   { data: { id: "six", label: "Node 6" }, position: { x: 100, y: 200 } },
-  //   { data: { id: "seven", label: "Node 7" }, position: { x: 100, y: 100 } },
-  //   { data: { source: "one", target: "two", label: "onetotwo" } },
-  // ];
+  const nodes = generateNodes(nodeQuantity);
+  let edges = [];
 
   const [state, setState] = useState({
     w: window.innerWidth,
     h: window.innerHeight,
-    elements: elements,
+    nodes: nodes,
+    edges: edges,
+    elements: nodes,
   });
   const [cy, setCy] = useState();
 
   let handleConnect = () => {
-    console.log("SELECTEEED", cy.elements(":selected"));
+    let newEdges = connectNodes(cy.elements(":selected"), state.edges);
+
+    let newState = state;
+    newState.edges = newState.edges.concat(newEdges);
+
+    newState.elements = newState.nodes.concat(newState.edges);
+    setState(newState);
+
+    console.log("NEWEDGES", newEdges);
+
+    cy.add(newEdges);
   };
 
   return (
@@ -41,16 +44,21 @@ function PlayWay(history) {
       <CytoscapeComponent
         elements={state.elements}
         cy={(newCy) => {
-          newCy.on("click", "node", (event) => {
-            console.log("clcked in ", event.target._private.data);
-          });
+          // newCy.on("click", "node", (event) => {
+          //   console.log("clcked in ", event.target._private.data);
+          // });
           // if (newCy != cy) {
           setCy(newCy);
+
           // }
         }}
-        style={{ width: "600px", height: "600px" }}
+        style={{
+          border: "5px solid black",
+          height: "40rem",
+          color: pink,
+          "text-outline-color": "pink",
+        }}
         layout={{ name: "random" }}
-        pan={{ x: 100, y: 200 }}
         zoom={1}
         userPanningEnabled={false}
         userZoomingEnabled={false}
@@ -68,6 +76,52 @@ function PlayWay(history) {
 }
 
 export default PlayWay;
+
+function connectNodes(selectedElements, existingEdges) {
+  let edges = [];
+
+  for (var i = 0; i < selectedElements.length; i++) {
+    for (var j = i + 1; j < selectedElements.length; j++) {
+      if (
+        !edgeExists(selectedElements[i], selectedElements[j], existingEdges) &&
+        selectedElements[i].isNode() &&
+        selectedElements[j].isNode()
+      ) {
+        let newEdge = createEdge(selectedElements[i], selectedElements[j]);
+        edges.push(newEdge);
+      }
+    }
+  }
+
+  return edges;
+}
+
+function createEdge(from, target) {
+  return {
+    data: {
+      source: from._private.data.id,
+      target: target._private.data.id,
+    },
+  };
+}
+
+function edgeExists(from, to, existingEdges) {
+  for (let elementIdx in existingEdges) {
+    if (
+      existingEdges[elementIdx].data.source == from._private.data.id &&
+      existingEdges[elementIdx].data.target == to._private.data.id
+    ) {
+      return true;
+    }
+    if (
+      existingEdges[elementIdx].data.source == to._private.data.id &&
+      existingEdges[elementIdx].data.target == from._private.data.id
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function generateNodes(quantity) {
   let nodes = [];

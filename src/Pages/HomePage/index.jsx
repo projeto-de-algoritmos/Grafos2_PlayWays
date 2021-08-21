@@ -68,7 +68,7 @@ function HomePage() {
         step={1}
         marks
         min={2}
-        max={15}
+        max={20}
         onChange={handleSliderChange}
       />
 
