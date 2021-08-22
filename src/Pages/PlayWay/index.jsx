@@ -2,6 +2,7 @@ import "./style.css";
 import React, { useState, useEffect } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
 import { pink } from "@material-ui/core/colors";
+import { sqrt, pow } from 'mathjs'
 
 function PlayWay(history) {
   let nodeQuantity = history.location.state.nodes;
@@ -87,7 +88,8 @@ function connectNodes(selectedElements, existingEdges) {
         selectedElements[i].isNode() &&
         selectedElements[j].isNode()
       ) {
-        let newEdge = createEdge(selectedElements[i], selectedElements[j]);
+        let edgeLength = getEdgeLength(selectedElements[i], selectedElements[j])
+        let newEdge = createEdge(selectedElements[i], selectedElements[j], edgeLength);
         edges.push(newEdge);
       }
     }
@@ -96,11 +98,28 @@ function connectNodes(selectedElements, existingEdges) {
   return edges;
 }
 
-function createEdge(from, target) {
+function getEdgeLength(from, to) {
+  
+  let edgeLength;
+
+  let x1, x2, y1, y2;
+
+  x1 = from.position().x
+  x2 = to.position().x
+  y1 = from.position().y
+  y2 = to.position().y
+
+  edgeLength = sqrt(pow((x1-x2), 2) + pow((y1-y2), 2))
+  
+  return edgeLength;
+}
+
+function createEdge(from, target, edgeLength) {
   return {
     data: {
       source: from._private.data.id,
       target: target._private.data.id,
+      edgeLength: edgeLength,
     },
   };
 }
