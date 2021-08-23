@@ -36,12 +36,9 @@ function PlayWay(history) {
 
     cy.add(newEdges);
 
-    // console.log(cy.elements())
   };
 
   const generatePath = () => {
-    console.log("STATE", state);
-
     let edges = [];
     for (var idx in state.edges) {
       let edgeLength = getEdgeLength(
@@ -68,10 +65,7 @@ function PlayWay(history) {
       return;
     }
 
-    console.log("SELECTED EDGEEEES", selectedEdges);
-
     cy.edges().forEach((edge) => {
-      console.log("Um dos edges aquiiiee", edge);
       selectedEdges.forEach((edgeToSelect) => {
         if (
           (Number(edge._private.data.source) == edgeToSelect.from &&
@@ -84,11 +78,6 @@ function PlayWay(history) {
       });
     });
 
-    // //pathIDs deve ter o array dos ids
-    // let pathIDs = prim(edges);
-
-    // //path deve ter o array dos elements, dá pra pegar o element com o getElementByID
-    // path.select();
   };
 
   function handleClose() {
@@ -120,18 +109,14 @@ function PlayWay(history) {
 
       <h2 className="question">
         {" "}
-        Para conectar nós, posicione-os e selecione DOIS deles. Depois clique em
+        Para conectar nós, posicione-os e selecione eles. Depois clique em
         "Conectar nós"
       </h2>
-      <h3 className="question"> Quando finalizar, clique em "Gerar way"</h3>
+      <h3 className="question"> Quando terminar de montar o grafo, clique em "Gerar way"</h3>
 
       <CytoscapeComponent
         elements={state.elements}
         cy={(newCy) => {
-          // newCy.on("click", "node", (event) => {
-          //   console.log("clcked in ", event.target._private.data);
-          // });
-          // if (newCy != cy) {
           setCy(newCy);
 
           // }
