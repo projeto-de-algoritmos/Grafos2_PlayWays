@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.question {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.mountButton {
+  width: 10rem;
+  height: 2.5rem;
+  font-size: 20px;
+  font-weight: bold;
+  color: orange;
+  background-color: black;
+  border-radius: 7px;
+}
+
+.connectButton {
+  width: 20rem;
+  height: 3rem;
+  font-size: 20px;
+  font-weight: bold;
+  color: orange;
+  background-color: black;
+  border-radius: 7px;
+  margin-top: 10px;
+  margin-left: 42%;
+}
+
+.PlayWay {
+  padding: 30px;
+}
+
+.modaldiv {
+  background-color: antiquewhite;
+  width: 40rem;
+  height: 6rem;
+  border-radius: 10px;
+  text-align: center;
+  padding: 3rem;
+}
+
+.modalBack {
+  width: 20rem;
+  height: 3rem;
+  font-size: 20px;
+  font-weight: bold;
+  color: orange;
+  background-color: black;
+  border-radius: 7px;
+}
+
+.generateButton {
+  margin: 1rem;
+}

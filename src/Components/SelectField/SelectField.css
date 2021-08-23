@@ -1,0 +1,11 @@
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0px 10px;
+}
+
+.field {
+  padding: 10px;
+  display: flex;
+  margin: 10px;
+}
