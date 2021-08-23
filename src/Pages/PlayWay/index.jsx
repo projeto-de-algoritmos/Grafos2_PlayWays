@@ -2,8 +2,9 @@ import "./style.css";
 import React, { useState } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
 import { pink } from "@material-ui/core/colors";
-import { sqrt, pow } from "mathjs";
+import { sqrt, pow, forEach } from "mathjs";
 import Modal from "@material-ui/core/Modal";
+import generateMST from "../../prim";
 
 function PlayWay(history) {
   let nodeQuantity = history.location.state.nodes;
@@ -34,6 +35,8 @@ function PlayWay(history) {
     setState(newState);
 
     cy.add(newEdges);
+
+    // console.log(cy.elements())
   };
 
   const generatePath = () => {
@@ -67,12 +70,28 @@ function PlayWay(history) {
       );
 
       let edge = {
-        from: state.edges[idx].data.source,
-        to: state.edges[idx].data.target,
+        from: Number(state.edges[idx].data.source),
+        to: Number(state.edges[idx].data.target),
         weight: edgeLength,
       };
       edges.push(edge);
     }
+
+    let selectedEdges = generateMST(edges, cy)
+
+    console.log("SELECTED EDGEEEES", selectedEdges)
+
+    cy.edges().forEach(edge => {
+      console.log("Um dos edges aquiiiee", edge)
+      selectedEdges.forEach(edgeToSelect => {
+
+        if((Number(edge._private.data.source) == edgeToSelect.from && Number(edge._private.data.target) == edgeToSelect.to) ||
+        (Number(edge._private.data.source) == edgeToSelect.to && Number(edge._private.data.target) == edgeToSelect.from)) {
+          edge.select()
+        }
+
+      });
+    });
 
     // //pathIDs deve ter o array dos ids
     // let pathIDs = prim(edges);
