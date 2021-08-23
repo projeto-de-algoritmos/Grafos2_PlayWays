@@ -52,3 +52,7 @@
   background-color: black;
   border-radius: 7px;
 }
+
+.generateButton {
+  margin: 1rem;
+}

@@ -40,26 +40,6 @@ function PlayWay(history) {
   };
 
   const generatePath = () => {
-    if (
-      cy.elements(":selected").length != 1 ||
-      !cy.elements(":selected")[0].isNode()
-    ) {
-      setModal({
-        show: true,
-        message: "Selecione apenas um nó",
-      });
-      return;
-    }
-    if (
-      !hasConnection(state.edges, cy.elements(":selected")[0]._private.data.id)
-    ) {
-      setModal({
-        show: true,
-        message: "O nó selecionado precisa se conectar a ao menos um outro",
-      });
-      return;
-    }
-
     console.log("STATE", state);
 
     let edges = [];
@@ -77,19 +57,30 @@ function PlayWay(history) {
       edges.push(edge);
     }
 
-    let selectedEdges = generateMST(edges, cy)
+    let selectedEdges = [];
+    try {
+      selectedEdges = generateMST(edges, cy);
+    } catch (err) {
+      setModal({
+        show: true,
+        message: "O grafo montado precisa ser conectado",
+      });
+      return;
+    }
 
-    console.log("SELECTED EDGEEEES", selectedEdges)
+    console.log("SELECTED EDGEEEES", selectedEdges);
 
-    cy.edges().forEach(edge => {
-      console.log("Um dos edges aquiiiee", edge)
-      selectedEdges.forEach(edgeToSelect => {
-
-        if((Number(edge._private.data.source) == edgeToSelect.from && Number(edge._private.data.target) == edgeToSelect.to) ||
-        (Number(edge._private.data.source) == edgeToSelect.to && Number(edge._private.data.target) == edgeToSelect.from)) {
-          edge.select()
+    cy.edges().forEach((edge) => {
+      console.log("Um dos edges aquiiiee", edge);
+      selectedEdges.forEach((edgeToSelect) => {
+        if (
+          (Number(edge._private.data.source) == edgeToSelect.from &&
+            Number(edge._private.data.target) == edgeToSelect.to) ||
+          (Number(edge._private.data.source) == edgeToSelect.to &&
+            Number(edge._private.data.target) == edgeToSelect.from)
+        ) {
+          edge.select();
         }
-
       });
     });
 
@@ -172,15 +163,6 @@ function PlayWay(history) {
 }
 
 export default PlayWay;
-
-function hasConnection(edges, elem) {
-  for (let edge in edges) {
-    if (edges[edge].data.source == elem || edges[edge].data.target == elem) {
-      return true;
-    }
-  }
-  return false;
-}
 
 function connectNodes(selectedElements, existingEdges) {
   let edges = [];
