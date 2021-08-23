@@ -18,7 +18,17 @@ Em seguida, selecione dois ou mais nós e clique em "Conectar nós", repetindo e
 Com o seu grafo pronto, clique no botão "Gerar Way", e assim obterá, selecionada na cor azul, a árvore geradora mínima desse grafo.
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+### Página Inicial
+
+![image](https://user-images.githubusercontent.com/54086083/130532738-4bbb8c6d-565b-4731-bb5e-3d384509918b.png)
+
+### Montagem do grafo
+
+![image](https://user-images.githubusercontent.com/54086083/130532761-924497d0-4484-4c1c-8e76-b5e0534a64e8.png)
+
+### Resultado
+
+![image](https://user-images.githubusercontent.com/54086083/130532781-56260021-cadf-48ca-9498-d013cf5112c1.png)
 
 ## Instalação
 **Linguagem**: JavaScript<br>
